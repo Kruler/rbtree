@@ -79,3 +79,49 @@ func (t *Rbtree) ascendRange(x *Node, inf, sup Item, iterator Iterator) bool {
 	}
 	return t.ascendRange(x.Right, inf, sup, iterator)
 }
+
+func (t *Rbtree) AscNext(pivot Item) Item {
+	return t.ascnext(t.root, pivot).Item
+}
+
+func (t *Rbtree) ascnext(x *Node, pivot Item) *Node {
+	if x == t.NIL {
+		return t.NIL
+	}
+
+	if !less(pivot, x.Item) {
+		return t.ascnext(x.Right, pivot)
+	} else {
+		if x.Left != t.NIL {
+			if !less(pivot, t.max(x.Left).Item) {
+				return x
+			} else {
+				return t.ascnext(x.Left, pivot)
+			}
+		}
+		return x
+	}
+}
+
+func (t *Rbtree) DescNext(pivot Item) Item {
+	return t.descnext(t.root, pivot).Item
+}
+
+func (t *Rbtree) descnext(x *Node, pivot Item) *Node {
+	if x == t.NIL {
+		return t.NIL
+	}
+
+	if !less(x.Item, pivot) {
+		return t.descnext(x.Left, pivot)
+	} else {
+		if x.Right != t.NIL {
+			if !less(t.min(x.Right).Item, pivot) {
+				return x
+			} else {
+				return t.descnext(x.Right, pivot)
+			}
+		}
+		return x
+	}
+}

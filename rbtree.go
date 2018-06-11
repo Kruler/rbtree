@@ -144,6 +144,7 @@ func (t *Rbtree) insert(z *Node) *Node {
 		} else if less(x.Item, z.Item) {
 			x = x.Right
 		} else {
+			x.Item = z.Item
 			return x
 		}
 	}
